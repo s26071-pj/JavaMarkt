@@ -8,6 +8,7 @@ public class Main {
     public static void main(String[] args) {
 
 
+
         InvoicePosition position = new InvoicePosition(new Product());
         position.getNettoPrice();
 
@@ -16,7 +17,6 @@ public class Main {
         System.out.println("Stawka VAT: " + InvoicePosition.TAX_23);
 
         Product product = new Product("12344","Cukier",350.0,0.0);
-
         Product product2 = new Product("232", "mleko", 10.0, 0.0);
         Product product3 = new Product("234", "kawa", 5.0, 0.0);
 
@@ -39,10 +39,45 @@ public class Main {
         ICanCalculateSpecialOffer freeCup = new ApplyFreeCup();
         ICanCalculateSpecialOffer thirdForFree = new ApplyDiscountThirdForFree();
         cart.applyDiscount(discount300Plus);
-
         cart.applyDiscount(thirdForFree);
         cart.applyDiscount(freeCup);
 
         System.out.println(cart.toString());
+
+        System.out.println("---------------------------");
+        System.out.println("Before sorting by price:");
+        System.out.println(cart.toString());
+
+        CartService cartService = new CartService();
+        cartService.sortProductsByPrice(productList);
+
+        System.out.println("After sorting by price:");
+        System.out.println(cart.toString());
+
+        System.out.println("---------------------------");
+        System.out.println("Before sorting by name:");
+        System.out.println(cart.toString());
+
+        cartService.sortProductsByName(productList);
+
+        System.out.println("After sorting by name:");
+        System.out.println(cart.toString());
+
+
+        int howMany = 3;
+        System.out.println(CartService.getnCheapestOne(productList, howMany));
+    }
+    private static void printoutInvoice(Invoice invoice){
+        System.out.println("|NAZWA\t|ILOSC\t|CENA NETTO\t|CENA BRUTTO\t|STAWKA VAT\t|PODATEK");
+        System.out.println("**********************************************************************");
+        for (InvoicePosition p : invoice.getPositions()){
+            System.out.print("|" + p.getProduct().getName() + "|");
+            System.out.print(p.getCount() + "\t\t|");
+            System.out.print(p.getNettoPrice());
+            System.out.print(p.getGrossPrice());
+            System.out.print(p.getTax());
+            System.out.print(p.getTaxValue());
+            System.out.print("*************************************************************************************");
+        }
     }
 }

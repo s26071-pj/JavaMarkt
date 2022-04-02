@@ -12,4 +12,5 @@ public class Invoice {
     public void addPosition(InvoicePosition position){
         position.add(position);
     }
+
 }
